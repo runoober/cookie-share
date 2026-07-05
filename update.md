@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.5.3]
+## [0.6.2] - 2026-07-05
+
+Backend/admin-page only — no userscript release for this version.
+仅后端/管理页面变更 — 此版本无油猴脚本发布。
 
 ### Changed
 
@@ -15,6 +18,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CLAUDE.md for Claude Code guidance
 - 管理页面 UI 从 Pico CSS 迁移至 DaisyUI v5 + Tailwind CSS，支持多主题切换（Nord、Corporate、Cupcake、Emerald、Dark、Dracula）
 - 新增 CLAUDE.md 文件为 Claude Code 提供项目指引
+
+---
+
+## [0.6.1] - 2026-06-19
+
+### Security
+
+- Public `DELETE /{PATH_SECRET}/delete` now requires an encrypted request body (proving `TRANSPORT_SECRET` knowledge); knowing `PATH_SECRET` alone can no longer delete data. **Breaking**: userscripts `< 0.6.1` sending `DELETE /delete?key=xxx` will get a 400 error and must be updated
+- Worker `timingSafeEqual` no longer leaks password length via early return on mismatched lengths
+- 公开的 `DELETE /{PATH_SECRET}/delete` 端点现在要求加密请求体（证明持有 `TRANSPORT_SECRET`），仅知道 `PATH_SECRET` 不再能删除数据。**破坏性变更**：`< 0.6.1` 的旧脚本发送 `DELETE /delete?key=xxx` 将收到 400 错误，需升级脚本
+- Worker 的 `timingSafeEqual` 不再因长度不匹配提前返回而泄露密码长度
+
+### Fixed
+
+- Server admin page `base64UrlEncode` had a double-escaped regex (`/\\+/` matching backslashes instead of `/\+/` matching `+`), breaking all admin page encrypted operations
+- Admin page template rendering switched from single `.replace()` to `split/join` for reliable global replacement
+- Userscript `t()` regex `\s` inside a template literal silently became a literal `s`; fixed to `\\s`
+- `.gitignore` no longer ignores itself
+- 服务器管理页面 `base64UrlEncode` 的正则被双重转义（`/\\+/` 匹配反斜杠而非 `/\+/` 匹配 `+`），导致管理页所有加密操作失效
+- 管理页模板渲染从单次 `.replace()` 改为 `split/join`，确保全局替换可靠
+- 油猴脚本 `t()` 中模板字面量里的正则 `\s` 被静默转义为字面 `s`，已修正为 `\\s`
+- `.gitignore` 不再忽略它自己
+
+### Changed
+
+- Worker `ensureSchema` runs once per isolate instead of every request
+- Bulk import uses D1 `batch()` in the Worker and SQLite transactions in the Node server
+- Removed unused `listCookieRecords()` from Worker and store
+- Worker 的 `ensureSchema` 每个 isolate 只执行一次，不再每个请求都执行
+- 批量导入在 Worker 中使用 D1 `batch()`，在 Node 服务器中使用 SQLite 事务
+- 移除 Worker 和 store 中未使用的 `listCookieRecords()`
+
+---
+
+## [0.6.0] - 2026-06-19
+
+### Added
+
+- Floating button drag & edge docking: draggable via Pointer Events (mouse + touch), drag to left/right edge to auto-dock with a visible strip, click docked strip to open the panel directly
+- Position and dock state persisted via `GM_setValue`; window resize clamps position and preserves dock side
+- GitHub Actions workflow for auto-release when a new userscript `@version` is pushed to `main`
+- 悬浮按钮拖拽与边缘停靠：基于 Pointer Events 支持鼠标和触摸拖动，拖至左/右边缘自动停靠并保留可见条带，点击停靠条带可直接打开面板
+- 位置与停靠状态通过 `GM_setValue` 持久化；窗口缩放时自动约束位置并保持停靠侧
+- 新增 GitHub Actions 工作流，当新的脚本 `@version` 推送到 `main` 时自动创建 Release
+
+### Changed
+
+- Default floating button position changed to bottom-right
+- 悬浮按钮默认位置改为右下角
 
 ---
 
