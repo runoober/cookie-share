@@ -1,0 +1,153 @@
+{
+  "description": "Cross-implementation contract fixtures for the cookie-share protocol. Both _worker.js and server/ must pass every case. Regenerate with: node contract/generate-vectors.mjs",
+  "secret": "contract-transport-secret",
+  "send": {
+    "envelope": {
+      "version": 1,
+      "salt": "DsyBX2KkFbkh7GKhXz55ww",
+      "iv": "zzHVoH1-VjL_RXvx",
+      "payload": "ydukTJa0US7ntv-GZROnVf9kYCcyfkTGcJ7wIYwPE1ZcsEio4DEuvLKMDTMohPD3cGUbM50oATE9XY7mdjPVoYHOue1JEc-JCmb7l0zNOmBJiMnTJL17W1TXs8yMRcahnYzpe4YxIuhBSLvq71B_qiGDsnMFWSVhykLxEqpuRmWToNXYHmo6O89TvdzEGPIq6lW31q4isoYJ9ei8my_iqT-nLXTSHRYjJhRlLaVH4oYN4MmtcAUbQbK6BbH2twm5RmfDjxEB9sa3O5IN_EEKVKWUnr9DawhawJvs-0jejOal2Hs7TRyo"
+    },
+    "plaintext": {
+      "id": "contractVector1",
+      "url": "Example.com/Login?next=%2Fhome",
+      "cookies": [
+        {
+          "name": "session",
+          "value": "token-value",
+          "domain": ".Example.com",
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "Lax",
+          "expirationDate": 1893456000
+        }
+      ]
+    },
+    "expected": {
+      "id": "contractVector1",
+      "url": "https://example.com/Login?next=%2Fhome",
+      "host": "example.com",
+      "cookie": {
+        "domain": "example.com",
+        "expirationDate": 1893456000,
+        "hostOnly": false,
+        "httpOnly": true,
+        "name": "session",
+        "path": "/",
+        "sameSite": "lax",
+        "secure": true,
+        "session": false,
+        "storeId": null,
+        "value": "token-value"
+      }
+    }
+  },
+  "invalidEnvelopes": [
+    {},
+    {
+      "version": 2,
+      "salt": "AAAA",
+      "iv": "AAAA",
+      "payload": "AAAA"
+    },
+    {
+      "version": 1,
+      "salt": "AAAA",
+      "iv": "AAAA"
+    },
+    {
+      "version": 1,
+      "salt": 1,
+      "iv": "AAAA",
+      "payload": "AAAA"
+    },
+    "not-an-object"
+  ],
+  "ids": {
+    "valid": [
+      "a",
+      "ABC123xyz",
+      "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"
+    ],
+    "invalid": [
+      "",
+      "bad-id!",
+      "with space",
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "under_score"
+    ]
+  },
+  "urls": {
+    "valid": [
+      {
+        "input": "Example.com/Login?next=%2Fhome",
+        "normalized": "https://example.com/Login?next=%2Fhome",
+        "host": "example.com"
+      },
+      {
+        "input": "  https://Sub.Example.com:8443/x?q=1  ",
+        "normalized": "https://sub.example.com:8443/x?q=1",
+        "host": "sub.example.com"
+      },
+      {
+        "input": "example.com",
+        "normalized": "https://example.com/",
+        "host": "example.com"
+      }
+    ],
+    "invalid": [
+      "",
+      "   ",
+      "http://",
+      "https://exa mple.com"
+    ]
+  },
+  "cookies": {
+    "invalid": [
+      {
+        "name": "session"
+      },
+      {
+        "name": "",
+        "value": "v",
+        "domain": "example.com",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "lax"
+      },
+      {
+        "name": "n",
+        "value": "v",
+        "domain": "  ",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "lax"
+      },
+      {
+        "name": "n",
+        "value": "v",
+        "domain": "example.com",
+        "httpOnly": "yes",
+        "secure": true,
+        "sameSite": "lax"
+      },
+      {
+        "name": "n",
+        "value": "v",
+        "domain": "example.com",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "sometimes"
+      },
+      {
+        "name": "n",
+        "value": "v",
+        "domain": "example.com",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "lax",
+        "expirationDate": "not-a-number"
+      }
+    ]
+  }
+}
