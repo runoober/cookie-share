@@ -5,12 +5,15 @@
   "description": "Cookie-share Cloudflare Worker deployment tooling",
   "scripts": {
     "dev": "wrangler dev",
+    "test": "vitest run",
     "check": "wrangler deploy --dry-run",
     "deploy:dry": "wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "db:migrate": "wrangler d1 migrations apply COOKIE_DB --remote"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.18.0",
+    "vitest": "^4.1.9",
     "wrangler": "^4.75.0"
   }
 }
